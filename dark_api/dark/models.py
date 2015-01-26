@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models, transaction
+from django.utils.functional import cached_property
 
 
 class SheetQuerySet(models.QuerySet):
@@ -9,7 +10,7 @@ class SheetQuerySet(models.QuerySet):
             for suit_name in ['spades', 'hearts', 'clubs', 'diamonds']:
                 suit = Suit.objects.create(sheet=sheet, name=suit_name)
                 AceCard.objects.create(suit=suit)
-                for face_name in ['Jack', 'Queen', 'King']:
+                for face_name in ['jack', 'queen', 'king']:
                     FaceCard.objects.create(suit=suit, name=face_name)
                 BaseCard.objects.create(suit=suit)
 
@@ -48,14 +49,54 @@ class Sheet(models.Model):
     name = models.CharField(max_length=128)
     look = models.TextField()
 
+    @cached_property
+    def suits(self):
+        return self.suit_set.all()
+
+    @cached_property
+    def spades(self):
+        return self.suit_set.filter(name='spades').first()
+
+    @cached_property
+    def hearts(self):
+        return self.suit_set.filter(name='hearts').first()
+
+    @cached_property
+    def clubs(self):
+        return self.suit_set.filter(name='clubs').first()
+
+    @cached_property
+    def diamonds(self):
+        return self.suit_set.filter(name='diamonds').first()
+
+    @cached_property
+    def skill_groups(self):
+        return self.skillgroup_set.all()
+
 
 class Suit(models.Model):
     name = models.CharField(max_length=128)
     sheet = models.ForeignKey(Sheet)
 
+    @cached_property
+    def jack(self):
+        return self.facecard_set.filter(name='jack').first()
+
+    @cached_property
+    def queen(self):
+        return self.facecard_set.filter(name='queen').first()
+
+    @cached_property
+    def king(self):
+        return self.facecard_set.filter(name='king').first()
+
+    @cached_property
+    def face_cards(self):
+        return self.facecard_set.all()
+
 
 class AceCard(models.Model):
-    suit = models.ForeignKey(Suit)
+    suit = models.OneToOneField(Suit, related_name='ace')
     value = models.IntegerField(default=0)
 
 
@@ -70,13 +111,17 @@ class FaceCard(models.Model):
 
 
 class BaseCard(models.Model):
-    suit = models.ForeignKey(Suit)
+    suit = models.OneToOneField(Suit, related_name='base_card')
     value = models.IntegerField(default=4)
 
 
 class SkillGroup(models.Model):
     sheet = models.ForeignKey(Sheet)
     name = models.CharField(max_length=128)
+
+    @cached_property
+    def skills(self):
+        return self.skill_set.all()
 
 
 class Skill(models.Model):

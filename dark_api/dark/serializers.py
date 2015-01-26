@@ -63,16 +63,6 @@ class UserWithTokenSerializer(serializers.Serializer):
             )
 
 
-class SheetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Sheet
-
-
-class SuitSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Suit
-
-
 class AceCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = AceCard
@@ -88,11 +78,52 @@ class BaseCardSerializer(serializers.ModelSerializer):
         model = BaseCard
 
 
-class SkillGroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SkillGroup
-
-
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skill
+
+
+class SkillGroupSerializer(serializers.ModelSerializer):
+    skills = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
+    class Meta:
+        model = SkillGroup
+        fields = (
+            'id',
+            'name',
+            'sheet',
+            'skills',
+        )
+
+
+class SuitSerializer(serializers.ModelSerializer):
+    ace = serializers.PrimaryKeyRelatedField(read_only=True)
+    face_cards = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    base_card = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = Suit
+        fields = (
+            'id',
+            'sheet',
+            'name',
+            'ace',
+            'face_cards',
+            'base_card',
+        )
+
+
+class SheetSerializer(serializers.ModelSerializer):
+    suits = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    skill_groups = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
+    class Meta:
+        model = Sheet
+        fields = (
+            'id',
+            'user',
+            'name',
+            'look',
+            'skill_groups',
+            'suits',
+        )
