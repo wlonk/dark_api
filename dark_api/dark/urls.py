@@ -2,12 +2,26 @@ from django.conf.urls import patterns, url, include
 from rest_framework import routers
 
 from .views import (
-    UsersViewSet,
+    UserViewSet,
     AuthenticateView,
+    SheetViewSet,
+    SuitViewSet,
+    AceCardViewSet,
+    FaceCardViewSet,
+    BaseCardViewSet,
+    SkillGroupViewSet,
+    SkillViewSet,
 )
 
 router = routers.DefaultRouter()
-router.register(r'users', UsersViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'sheets', SheetViewSet)
+router.register(r'suits', SuitViewSet)
+router.register(r'ace-cards', AceCardViewSet)
+router.register(r'face-cards', FaceCardViewSet)
+router.register(r'base-cards', BaseCardViewSet)
+router.register(r'skill-groups', SkillGroupViewSet)
+router.register(r'skills', SkillViewSet)
 
 urlpatterns = patterns('',  # NOQA
     url(

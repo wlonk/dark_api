@@ -3,6 +3,16 @@ from django.contrib.auth import authenticate, get_user_model
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
+from .models import (
+    Sheet,
+    Suit,
+    AceCard,
+    FaceCard,
+    BaseCard,
+    SkillGroup,
+    Skill,
+)
+
 User = get_user_model()
 
 
@@ -51,3 +61,38 @@ class UserWithTokenSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 'Must include "username" and "password"'
             )
+
+
+class SheetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sheet
+
+
+class SuitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Suit
+
+
+class AceCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AceCard
+
+
+class FaceCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FaceCard
+
+
+class BaseCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BaseCard
+
+
+class SkillGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SkillGroup
+
+
+class SkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Skill
