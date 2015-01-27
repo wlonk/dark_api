@@ -98,8 +98,8 @@ class SkillGroupSerializer(serializers.ModelSerializer):
 
 class SuitSerializer(serializers.ModelSerializer):
     ace = serializers.PrimaryKeyRelatedField(read_only=True)
-    face_cards = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    base_card = serializers.PrimaryKeyRelatedField(read_only=True)
+    faceCards = serializers.PrimaryKeyRelatedField(many=True, read_only=True, source="face_cards")
+    baseCard = serializers.PrimaryKeyRelatedField(read_only=True, source="base_card")
 
     class Meta:
         model = Suit
@@ -108,14 +108,18 @@ class SuitSerializer(serializers.ModelSerializer):
             'sheet',
             'name',
             'ace',
-            'face_cards',
-            'base_card',
+            'faceCards',
+            'baseCard',
         )
 
 
 class SheetSerializer(serializers.ModelSerializer):
     suits = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    skill_groups = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    skillGroups = serializers.PrimaryKeyRelatedField(
+        many=True,
+        read_only=True,
+        source="skill_groups",
+    )
 
     class Meta:
         model = Sheet
@@ -124,6 +128,6 @@ class SheetSerializer(serializers.ModelSerializer):
             'user',
             'name',
             'look',
-            'skill_groups',
+            'skillGroups',
             'suits',
         )
