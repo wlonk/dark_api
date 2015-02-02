@@ -47,7 +47,7 @@ class Sheet(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     name = models.CharField(max_length=128)
-    look = models.TextField()
+    look = models.TextField(blank=True)
 
     @cached_property
     def suits(self):
@@ -104,10 +104,10 @@ class FaceCard(models.Model):
     suit = models.ForeignKey(Suit)
     name = models.CharField(max_length=128)
     value = models.IntegerField(default=4)
-    ability = models.CharField(max_length=128)
-    advantage_1 = models.CharField(max_length=128)
-    advantage_2 = models.CharField(max_length=128)
-    advantage_3 = models.CharField(max_length=128)
+    ability = models.CharField(max_length=128, blank=True)
+    advantage_1 = models.CharField(max_length=128, blank=True)
+    advantage_2 = models.CharField(max_length=128, blank=True)
+    advantage_3 = models.CharField(max_length=128, blank=True)
 
 
 class BaseCard(models.Model):
