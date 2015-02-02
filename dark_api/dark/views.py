@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+from django.core.urlresolvers import reverse
+
 from rest_framework import (
     status,
     views,
@@ -51,6 +53,14 @@ class UserViewSet(viewsets.ModelViewSet):
 class SheetViewSet(viewsets.ModelViewSet):
     queryset = Sheet.objects.all()
     serializer_class = SheetSerializer
+
+    def create(self, request):
+        sheet = self.get_queryset().create_sheet_for_user(request.user)
+        headers = {
+            "Location": reverse('sheet-detail', kwargs={'pk': sheet.pk}),
+        }
+        serializer = self.get_serializer(instance=sheet)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class SuitViewSet(viewsets.ModelViewSet):
