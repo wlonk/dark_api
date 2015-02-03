@@ -7,10 +7,10 @@ class SheetQuerySet(models.QuerySet):
     def create_sheet_for_user(self, user):
         with transaction.atomic():
             sheet = self.create(user=user, name='Thief', look='')
-            for suit_name in ['spades', 'hearts', 'clubs', 'diamonds']:
+            for suit_name in ['Spades', 'Hearts', 'Clubs', 'Diamonds']:
                 suit = Suit.objects.create(sheet=sheet, name=suit_name)
                 AceCard.objects.create(suit=suit)
-                for face_name in ['jack', 'queen', 'king']:
+                for face_name in ['Jack', 'Queen', 'King']:
                     FaceCard.objects.create(suit=suit, name=face_name)
                 BaseCard.objects.create(suit=suit)
 
@@ -55,19 +55,19 @@ class Sheet(models.Model):
 
     @cached_property
     def spades(self):
-        return self.suit_set.filter(name='spades').first()
+        return self.suit_set.filter(name__iexact='spades').first()
 
     @cached_property
     def hearts(self):
-        return self.suit_set.filter(name='hearts').first()
+        return self.suit_set.filter(name__iexact='hearts').first()
 
     @cached_property
     def clubs(self):
-        return self.suit_set.filter(name='clubs').first()
+        return self.suit_set.filter(name__iexact='clubs').first()
 
     @cached_property
     def diamonds(self):
-        return self.suit_set.filter(name='diamonds').first()
+        return self.suit_set.filter(name__iexact='diamonds').first()
 
     @cached_property
     def skill_groups(self):
@@ -80,15 +80,15 @@ class Suit(models.Model):
 
     @cached_property
     def jack(self):
-        return self.facecard_set.filter(name='jack').first()
+        return self.facecard_set.filter(name__iexact='jack').first()
 
     @cached_property
     def queen(self):
-        return self.facecard_set.filter(name='queen').first()
+        return self.facecard_set.filter(name__iexact='queen').first()
 
     @cached_property
     def king(self):
-        return self.facecard_set.filter(name='king').first()
+        return self.facecard_set.filter(name__iexact='king').first()
 
     @cached_property
     def face_cards(self):
