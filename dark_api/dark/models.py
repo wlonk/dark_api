@@ -73,6 +73,10 @@ class Sheet(models.Model):
     def skill_groups(self):
         return self.skillgroup_set.all()
 
+    @cached_property
+    def parent(self):
+        return self.user
+
 
 class Suit(models.Model):
     name = models.CharField(max_length=128)
@@ -94,10 +98,18 @@ class Suit(models.Model):
     def face_cards(self):
         return self.facecard_set.all()
 
+    @cached_property
+    def parent(self):
+        return self.sheet
+
 
 class AceCard(models.Model):
     suit = models.OneToOneField(Suit, related_name='ace')
     value = models.IntegerField(default=0)
+
+    @cached_property
+    def parent(self):
+        return self.suit
 
 
 class FaceCard(models.Model):
@@ -109,10 +121,18 @@ class FaceCard(models.Model):
     advantage_2 = models.CharField(max_length=128, blank=True)
     advantage_3 = models.CharField(max_length=128, blank=True)
 
+    @cached_property
+    def parent(self):
+        return self.suit
+
 
 class BaseCard(models.Model):
     suit = models.OneToOneField(Suit, related_name='base_card')
     value = models.IntegerField(default=4)
+
+    @cached_property
+    def parent(self):
+        return self.suit
 
 
 class SkillGroup(models.Model):
@@ -123,6 +143,10 @@ class SkillGroup(models.Model):
     def skills(self):
         return self.skill_set.all()
 
+    @cached_property
+    def parent(self):
+        return self.sheet
+
 
 class Skill(models.Model):
     skill_group = models.ForeignKey(SkillGroup)
@@ -131,3 +155,7 @@ class Skill(models.Model):
     edu = models.BooleanField(default=False)
     exp = models.BooleanField(default=False)
     acc = models.BooleanField(default=False)
+
+    @cached_property
+    def parent(self):
+        return self.skill_group
