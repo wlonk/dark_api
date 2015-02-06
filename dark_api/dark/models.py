@@ -6,7 +6,7 @@ from django.utils.functional import cached_property
 class SheetQuerySet(models.QuerySet):
     def create_sheet_for_user(self, user):
         with transaction.atomic():
-            sheet = self.create(user=user, name='Thief', look='')
+            sheet = self.create(user=user, name='', look='')
             for suit_name in ['Spades', 'Hearts', 'Clubs', 'Diamonds']:
                 suit = Suit.objects.create(sheet=sheet, name=suit_name)
                 AceCard.objects.create(suit=suit)
@@ -46,7 +46,7 @@ class Sheet(models.Model):
     objects = SheetQuerySet.as_manager()
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, blank=True)
     look = models.TextField(blank=True)
 
     @cached_property
