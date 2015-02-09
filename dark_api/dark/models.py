@@ -48,6 +48,7 @@ class Sheet(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     name = models.CharField(max_length=128, blank=True)
     look = models.TextField(blank=True)
+    available_xp = models.IntegerField(default=0)
 
     @cached_property
     def suits(self):

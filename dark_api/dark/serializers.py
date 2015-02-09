@@ -128,6 +128,7 @@ class SheetSerializer(serializers.ModelSerializer):
             'user',
             'name',
             'look',
+            'available_xp',
             'skillGroups',
             'suits',
         )
