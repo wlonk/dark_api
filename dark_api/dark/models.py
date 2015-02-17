@@ -45,7 +45,7 @@ class SheetQuerySet(models.QuerySet):
 class Sheet(models.Model):
     objects = SheetQuerySet.as_manager()
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='sheets')
     name = models.CharField(max_length=128, blank=True)
     look = models.TextField(blank=True)
     available_xp = models.IntegerField(default=0)
