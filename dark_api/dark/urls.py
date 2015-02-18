@@ -2,15 +2,16 @@ from django.conf.urls import patterns, url, include
 from rest_framework import routers
 
 from .views import (
-    UserViewSet,
-    AuthenticateView,
-    SheetViewSet,
-    SuitViewSet,
     AceCardViewSet,
-    FaceCardViewSet,
+    AuthenticateView,
     BaseCardViewSet,
+    FaceCardViewSet,
+    RegistrationView,
+    SheetViewSet,
     SkillGroupViewSet,
     SkillViewSet,
+    SuitViewSet,
+    UserViewSet,
 )
 
 router = routers.DefaultRouter()
@@ -25,9 +26,14 @@ router.register(r'skills', SkillViewSet)
 
 urlpatterns = patterns('',  # NOQA
     url(
-        r'^api-token-auth/$',
+        r'^token-auth/$',
         AuthenticateView.as_view(),
-        name='api-token-auth',
+        name='token-auth',
+    ),
+    url(
+        r'^registration/$',
+        RegistrationView.as_view(),
+        name='registration',
     ),
     url(r'^api-auth', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^', include(router.urls)),

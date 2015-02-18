@@ -20,18 +20,31 @@ from .models import (
 )
 
 from .serializers import (
-    UserSerializer,
-    UserWithTokenSerializer,
-    SheetSerializer,
-    SuitSerializer,
     AceCardSerializer,
-    FaceCardSerializer,
     BaseCardSerializer,
+    CreateUserSerializer,
+    FaceCardSerializer,
+    SheetSerializer,
     SkillGroupSerializer,
     SkillSerializer,
+    SuitSerializer,
+    UserSerializer,
+    UserWithTokenSerializer,
 )
 
 User = get_user_model()
+
+
+class RegistrationView(views.APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        serializer = CreateUserSerializer(data=request.DATA)
+        if serializer.is_valid():
+            instance = serializer.create(serializer.validated_data)
+            return_serializer = CreateUserSerializer(instance=instance)
+            return Response(return_serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AuthenticateView(views.APIView):
