@@ -66,6 +66,9 @@ class UserViewSet(viewsets.ModelViewSet):
 class SheetViewSet(viewsets.ModelViewSet):
     queryset = Sheet.objects.all()
     serializer_class = SheetSerializer
+    filter_fields = (
+        'user',
+    )
 
     def create(self, request):
         sheet = self.get_queryset().create_sheet_for_user(request.user)
