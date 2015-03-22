@@ -16,14 +16,26 @@ from .models import (
 User = get_user_model()
 
 
+class RedactedEmailField(serializers.EmailField):
+    def to_representation(self, *args, **kwargs):
+        request = self.context['request']
+        ret = super(RedactedEmailField, self).to_representation(*args, **kwargs)
+        if request.user.is_authenticated() and request.user.email == ret:
+            return ret
+        return ''
+
+
 class UserSerializer(serializers.ModelSerializer):
+    displayName = serializers.CharField(source='first_name')
+    email = RedactedEmailField()
+
     class Meta:
         model = User
         fields = (
             'id',
             'username',
-            'first_name',
-            'last_name',
+            'displayName',
+            'email',
             'sheets',
         )
 
