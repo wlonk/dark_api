@@ -26,7 +26,7 @@ class RedactedEmailField(serializers.EmailField):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    displayName = serializers.CharField(source='first_name')
+    display_name = serializers.CharField(source='first_name')
     email = RedactedEmailField()
 
     class Meta:
@@ -34,8 +34,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'username',
-            'displayName',
+            'display_name',
             'email',
+            'sheets',
+        )
+        read_only_fields = (
             'sheets',
         )
 

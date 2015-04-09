@@ -58,13 +58,17 @@ class AuthenticateView(views.APIView):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+    queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
     filter_fields = ('username',)
 
+    def perform_destroy(self, instance):
+        instance.is_active = False
+        instance.save()
+
 
 class SheetViewSet(viewsets.ModelViewSet):
-    queryset = Sheet.objects.all()
+    queryset = Sheet.objects.filter(user__is_active=True)
     serializer_class = SheetSerializer
     filter_fields = (
         'user',
