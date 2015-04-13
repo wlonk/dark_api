@@ -94,6 +94,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'dark.permissions.IsOwnerOrReadOnly',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'dark.pagination.PageNumberPagination',
     'PAGINATE_BY': 10,
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework.filters.DjangoFilterBackend',
