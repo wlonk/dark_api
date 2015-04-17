@@ -101,5 +101,5 @@ REST_FRAMEWORK = {
     ),
 }
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True  # TODO limit this more realistically.
 CORS_URLS_REGEX = r'^/api/.*$'
