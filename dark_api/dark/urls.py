@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url, include
+from django.conf.urls import url, include
 from rest_framework import routers
 
 from .views import (
@@ -24,7 +24,7 @@ router.register(r'base-cards', BaseCardViewSet)
 router.register(r'skill-groups', SkillGroupViewSet)
 router.register(r'skills', SkillViewSet)
 
-urlpatterns = patterns('',  # NOQA
+urlpatterns = [
     url(
         r'^token-auth/$',
         AuthenticateView.as_view(),
@@ -35,6 +35,9 @@ urlpatterns = patterns('',  # NOQA
         RegistrationView.as_view(),
         name='registration',
     ),
-    url(r'^api-auth', include('rest_framework.urls', namespace='rest_framework')),
+    url(
+        r'^api-auth',
+        include('rest_framework.urls', namespace='rest_framework')
+    ),
     url(r'^', include(router.urls)),
-)
+]
