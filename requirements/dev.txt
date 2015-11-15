@@ -1,3 +1,7 @@
 -r base.txt
-pytest==2.7.2
-pytest-django==2.8.0
+Ipython
+ipdb
+pytest
+pytest-django
+pytest-cov
+factory_boy
