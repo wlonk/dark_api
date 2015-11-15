@@ -1,4 +1,6 @@
 .*.swp
 .env
+.cache
+.coverage
 __pycache__
 .tox
