@@ -3,4 +3,4 @@ machine:
     version: 3.5.0
 test:
   override:
-    - tox -- tests
+    - tox -- dark_api

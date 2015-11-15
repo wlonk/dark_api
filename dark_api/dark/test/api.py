@@ -1,6 +1,6 @@
 import pytest
 from django.contrib.auth import get_user_model
-from dark.models import (
+from ..models import (
     Sheet,
     Suit,
 )
